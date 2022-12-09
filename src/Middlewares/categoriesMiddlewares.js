@@ -7,6 +7,19 @@ export async function postCategoriesMiddleware (req, res, next) {
         return res.sendStatus(400);
     }
 
-    res.locals.name = name;
-    next();
+    try {
+        const categorie = await connectionDB.query("SELECT name FROM categories WHERE name=$1", [name]);
+        
+        if (categorie.rows[0]) {
+            res.sendStatus(409)
+        }
+
+        res.locals.name = name;
+        next();
+        
+    } catch (err) {
+        res.sendStatus(500);
+    }
+
+    
 }
