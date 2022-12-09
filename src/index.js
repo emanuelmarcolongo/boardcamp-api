@@ -3,24 +3,16 @@ import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
 import { connectionDB } from "../database/db.js";
+import categoryRouter from "./Routes/categoriesRoutes.js";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/categories", async (req, res) => {
+app.use(categoryRouter);
 
-  try {
-    const categories = await connectionDB.query("SELECT * FROM categories");
-    res.send(categories.rows);
-  } catch (err) {
-    console.log(err)
-    res.send(err.routine);
-  }
-   
-  });
 
-  app.post("/categories", async (req, res) => {
+app.post("/categories", async (req, res) => {
 
     const {name} = req.body;
 
