@@ -11,7 +11,6 @@ export async function getGames(req, res) {
 
 export async function postGames(req, res) {
   const { name, image, stockTotal, categoryId, pricePerDay } = req.body;
-  console.log(req.body);
 
   try {
     const addGame = await connectionDB.query(
