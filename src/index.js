@@ -20,5 +20,19 @@ app.get("/categories", async (req, res) => {
    
   });
 
+  app.post("/categories", async (req, res) => {
+
+    const {name} = req.body;
+
+    try {
+      const newCategorie = await connectionDB.query("INSERT INTO categories (name) VALUES ($1) ", [name]);
+      res.send(newCategorie.command);
+    } catch (err) {
+      console.log(err)
+      res.send(err.routine).status(500);
+    }
+     
+    });
+
 const port = 4000;
 app.listen(port, () => console.log(`Server runing in port ${port}`));
