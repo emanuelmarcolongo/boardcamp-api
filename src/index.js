@@ -4,12 +4,14 @@ import cors from "cors";
 dotenv.config();
 import { connectionDB } from "../database/db.js";
 import categoryRouter from "./Routes/categoriesRoutes.js";
+import gamesRouter from "./Routes/gamesRoutes.js";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 app.use(categoryRouter);
+app.use(gamesRouter);
 
 
 app.post("/categories", async (req, res) => {
