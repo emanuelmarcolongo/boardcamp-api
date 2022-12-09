@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { getGames } from "../Controllers/gamesController.js";
+import { getGames, postGames } from "../Controllers/gamesController.js";
 
 const router = Router();
 
 
 router.get("/games",  getGames);
-// router.post("/categories",postCategoriesMiddleware, postCategories );
+router.post("/games", postGames );
 
 
 export default router;
