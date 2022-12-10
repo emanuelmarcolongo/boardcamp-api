@@ -1,4 +1,4 @@
-import { connectionDB } from "../../database/db.js";
+import { connectionDB } from "../database/db.js";
 
 export async function postCategoriesMiddleware(req, res, next) {
   const { name } = req.body;
@@ -14,7 +14,7 @@ export async function postCategoriesMiddleware(req, res, next) {
     );
 
     if (categorie.rows[0]) {
-      res.sendStatus(409);
+      return res.sendStatus(409);
     }
   } catch (err) {
     res.sendStatus(500);
