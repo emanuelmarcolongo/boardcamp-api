@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { getCustomers } from "../Controllers/customersController.js";
+import { getCustomers, getCustomersById } from "../Controllers/customersController.js";
 
 
 const router = Router();
 
 
 router.get("/customers", getCustomers);
+router.get("/customers/:id", getCustomersById);
+
 router.post("/customers");
 
 
