@@ -33,7 +33,7 @@ export async function postCustomer(req, res) {
   const { name, phone, cpf, birthday } = req.body;
 
   try {
-    const newCustomer = await connectionDB.query(
+    await connectionDB.query(
       `INSERT INTO customers (name, phone, cpf, birthday)
              VALUES ($1, $2, $3, $4)`,
       [name, phone, cpf, birthday]
@@ -43,4 +43,36 @@ export async function postCustomer(req, res) {
   } catch (err) {
     return res.send(err.routine);
   }
+}
+
+export async function putCustomer(req, res) {
+  const { id } = req.params;
+  const newCustomerInfo = req.body;
+  const { name, phone, cpf, birthday } = req.body;
+
+  const userExists = await connectionDB.query(
+    `SELECT * FROM customers WHERE cpf=$1`,
+    [newCustomerInfo.cpf]
+  );
+
+  if (userExists.rows[0]) {
+    if (id == userExists.rows[0].id) {
+      await connectionDB.query(
+        `UPDATE customers SET name=$1,
+            phone=$2, cpf=$3, birthday=$4 WHERE id = $5;`,
+        [name, phone, cpf, birthday, id]
+      );
+      return res.sendStatus(200);
+    }
+
+    return res.sendStatus(409);
+  }
+
+  await connectionDB.query(
+    `UPDATE customers SET name=$1,
+        phone=$2, cpf=$3, birthday=$4 WHERE id = $5;`,
+    [name, phone, cpf, birthday, id]
+  );
+
+  return res.sendStatus(200);
 }
