@@ -23,7 +23,7 @@ export async function getCustomersById(req, res) {
       return res.sendStatus(404);
     }
 
-    return res.send(customers.rows[0]);
+    return res.sendStatus(customers.rows[0]);
   } catch (err) {
     return res.send(err.routine);
   }
@@ -39,7 +39,7 @@ export async function postCustomer(req, res) {
       [name, phone, cpf, birthday]
     );
 
-    return res.send(newCustomer.rows);
+    return res.sendStatus(201);
   } catch (err) {
     return res.send(err.routine);
   }
