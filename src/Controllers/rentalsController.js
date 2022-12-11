@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import { response } from "express";
 import { connectionDB } from "../database/db.js";
 
 export async function postRentalsController(req, res) {
@@ -31,8 +30,8 @@ export async function getRentalsController(req, res) {
        JOIN categories ON games."categoryId" = categories.id;`
     );
 
-
-    return res.send(rentals.rows.map(i => ({
+    return res.send(
+      rentals.rows.map((i) => ({
         id: i.id,
         customerId: i.customerId,
         gameId: i.gameId,
@@ -42,18 +41,18 @@ export async function getRentalsController(req, res) {
         originalPrice: i.originalPrice,
         delayFee: i.delayFee,
         customer: {
-            id: i.customerId,
-            name: i.customername
+          id: i.customerId,
+          name: i.customername,
         },
         game: {
-            id: i.gameId,
-            name: i.gameName,
-            categoryId: i.categoryId,
-            categoryName: i.categoryName
-        }
-    })))
-}
- catch (err) {
+          id: i.gameId,
+          name: i.gameName,
+          categoryId: i.categoryId,
+          categoryName: i.categoryName,
+        },
+      }))
+    );
+  } catch (err) {
     return res.sendStatus(500);
   }
 }
