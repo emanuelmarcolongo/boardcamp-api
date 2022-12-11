@@ -68,3 +68,27 @@ export async function postRentalsReturnMiddleware(req, res, next) {
 
   next();
 }
+
+export async function deleteRentalsMiddleware(req, res, next) {
+    const {id} = req.params;
+
+    try {
+        const rentalExists = await connectionDB.query(`
+        SELECT * FROM rentals WHERE id=$1
+        `, [id])
+
+        if(!rentalExists.rows[0]) {
+            return res.sendStatus(404);
+        }
+
+        if (!rentalExists.rows[0].returnDate) {
+            return res.sendStatus(400);
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+
+    next();
+}

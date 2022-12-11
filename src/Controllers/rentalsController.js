@@ -108,7 +108,7 @@ export async function getRentalsController(req, res) {
        FROM rentals JOIN customers ON rentals."customerId" = customers.id JOIN games ON "gameId" = games.id 
        JOIN categories ON games."categoryId" = categories.id;`
     );
-    console.log(rentals.rows)
+    console.log(rentals.rows);
     return res.send(
       rentals.rows.map((i) => ({
         id: i.rentalId,
@@ -164,4 +164,12 @@ export async function postRentalsReturnController(req, res) {
   }
 
   return res.send(rental);
+}
+
+export async function deleteRentalsController(req, res) {
+  const { id } = req.params;
+
+  connectionDB.query(`DELETE FROM rentals WHERE id=$1`, [id]);
+
+  return res.sendStatus(200);
 }
