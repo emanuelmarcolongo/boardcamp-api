@@ -1,13 +1,16 @@
 import { connectionDB } from "../database/db.js";
 
 export async function getGames(req, res) {
+  const { name } = req.query;
+
   try {
-    const games = await connectionDB.query(`SELECT games.*, categories.name AS "categoryName" FROM games 
+    const games =
+      await connectionDB.query(`SELECT games.*, categories.name AS "categoryName" FROM games 
     JOIN categories 
     ON games."categoryId" = categories.id`);
-    res.send(games.rows);
+    return res.send(games.rows);
   } catch (err) {
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
 }
 
@@ -21,8 +24,8 @@ export async function postGames(req, res) {
       [name, image, stockTotal, categoryId, pricePerDay]
     );
 
-    res.sendStatus(201);
+    return res.sendStatus(201);
   } catch (err) {
-    res.send(err).status(500);
+    return res.send(err).status(500);
   }
 }
