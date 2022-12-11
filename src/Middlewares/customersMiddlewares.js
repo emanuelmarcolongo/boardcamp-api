@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { connectionDB } from "../database/db.js";
 import { customerModel } from "../Models/customerModels.js";
 
@@ -19,6 +20,11 @@ export async function postCustomerMiddleware(req, res, next) {
 
   if (userExists.rows[0]) {
     return res.sendStatus(409);
+  }
+
+  const diff = dayjs().diff(newCustomerInfo.birthday, "day");
+  if (diff < 0) {
+    return res.sendStatus(400);
   }
 
   next();
