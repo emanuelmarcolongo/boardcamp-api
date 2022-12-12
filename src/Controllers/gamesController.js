@@ -1,8 +1,6 @@
 import { connectionDB } from "../database/db.js";
 
 export async function getGames(req, res) {
-  const { name } = req.query;
-
   try {
     const games =
       await connectionDB.query(`SELECT games.*, categories.name AS "categoryName" FROM games 
