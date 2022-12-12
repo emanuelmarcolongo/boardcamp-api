@@ -1,7 +1,16 @@
 import { connectionDB } from "../database/db.js";
 
 export async function getGames(req, res) {
+  const {name} = req.query;
+  
   try {
+    if (name) {
+      const games =
+      await connectionDB.query(`SELECT games.*, categories.name AS "categoryName" FROM games 
+    JOIN categories 
+    ON games."categoryId" = categories.id WHERE games.name ILIKE $1`, [`${name}%`]);
+    return res.send(games.rows);
+    }
     const games =
       await connectionDB.query(`SELECT games.*, categories.name AS "categoryName" FROM games 
     JOIN categories 
